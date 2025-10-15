@@ -20,7 +20,7 @@
 
         body {
             font-family: var(--font-family);
-            line-height: 1.6;
+            line-height: 1.6;    
             margin: 0;
             color: var(--text-color);
             background-color: var(--bg-color); /* WIN 11 STYLE: Usamos la nueva variable de fondo */
@@ -410,6 +410,16 @@
 
         #close-banner-btn:hover {
             opacity: 1;
+        }
+
+        /* --- Media Queries para Responsividad --- */
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: 2rem 1.5rem; /* Reducir padding en móviles */
+            }
+            #biography p {
+                text-align: left; /* Mejorar legibilidad en móviles */
+            }
         }
     </style>
     <!-- Iconos de Font Awesome para redes sociales -->
