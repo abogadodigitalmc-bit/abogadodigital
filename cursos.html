@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos y Formación - Abogado Digital</title>
+    <meta name="description" content="Explora nuestros cursos de derecho, inscríbete y conoce nuestros métodos de pago.">
+    <style>
+        /* --- Variables y Estilos Globales --- */
+        :root {
+            --primary-color: #1a227ed3; /* Azul oscuro corporativo */
+            --secondary-color: #0078D4; /* WIN 11 STYLE: Azul de acento de Windows */
+            --text-color: #202020; /* Texto más oscuro */
+            --bg-color: #f0f0f4; /* Fondo más claro y ligeramente grisáceo (similar al shell de Win 11) */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* WIN 11 STYLE: Variables para bordes y sombras */
+            --border-radius-lg: 12px; 
+            --shadow-elevation-2: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra sutil y elevada */
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-color);
+            background-color: var(--bg-color); /* WIN 11 STYLE: Usamos la nueva variable de fondo */
+        }
+
+        .container {
+            max-width: 1080px; /* WIN 11 STYLE: Un poco más ancho para más espacio */
+            margin: auto;
+            overflow: hidden;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            font-weight: 600; /* Un poco más de peso para Segoe UI */
+        }
+
+        /* --- Botón de Menú y Panel Lateral --- */
+        #menu-toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #333;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.3s;
+        }
+
+        #menu-toggle-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        #menu-toggle-btn span {
+            display: block;
+            width: 5px;
+            height: 5px;
+            background-color: #333;
+            border-radius: 50%;
+        }
+
+        #side-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: rgba(240, 240, 244, 0.7); /* Fondo semi-transparente */
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1002;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        #side-menu.open {
+            transform: translateX(0);
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+        }
+
+        #side-menu .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        #side-menu .menu-header h3 {
+            margin: 0;
+        }
+
+        #side-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #side-menu ul li a {
+            display: block;
+            padding: 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        #side-menu ul li a:hover {
+            background-color: rgba(0, 120, 212, 0.1);
+            color: var(--secondary-color);
+        }
+
+        /* --- Showcase de Cursos --- */
+        #course-showcase {
+            padding-top: 4rem;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .showcase-card {
+            position: relative;
+            height: 400px;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-elevation-2);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: flex-end;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .showcase-card:hover { transform: scale(1.03); }
+        .showcase-card:hover::before { opacity: 1; }
+
+        .showcase-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 1.5rem;
+            width: 100%;
+            transform: translateY(25%);
+            transition: transform 0.4s ease;
+        }
+
+        .showcase-card:hover .showcase-content { transform: translateY(0); }
+
+        .showcase-content h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover { background-color: #005A9E; }
+        .btn:active { transform: scale(0.98); }
+
+        /* --- Formulario de Contacto --- */
+        #contact {
+            padding-top: 4rem;
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-elevation-2);
+            margin-top: 4rem;
+        }
+
+        .contact-header { text-align: center; margin-bottom: 3rem; }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .contact-info h3 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .step { display: flex; align-items: flex-start; margin-bottom: 1.5rem; }
+
+        .step-number {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+
+        .step-text h4 { margin: 0 0 0.25rem 0; color: var(--primary-color); }
+        .step-text p { margin: 0; font-size: 0.95rem; color: #555; }
+
+        .form-embed-container {
+            background-color: #f9f9fb;
+            padding: 1rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+            height: 720px;
+        }
+
+        .form-embed-container iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- Métodos de Pago --- */
+        #payment-methods {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-elevation-2);
+            margin-top: 4rem;
+            padding: 3rem 2rem;
+        }
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .payment-card {
+            background-color: #f9f9fb;
+            padding: 1.5rem;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid #e0e0e0;
+        }
+        .payment-card h4 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .payment-card p { margin: 0.5rem 0; }
+        .qr-code-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-placeholder {
+            width: 180px;
+            height: 180px;
+            background-color: #e0e0e0;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            border-top-left-radius: var(--border-radius-lg);
+            border-top-right-radius: var(--border-radius-lg);
+            margin-top: 4rem;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 768px) {
+            .contact-content { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-info { text-align: center; }
+            .step { flex-direction: column; align-items: center; text-align: center; }
+            .step-number { margin-right: 0; margin-bottom: 0.5rem; }
+        }
+    </style>
+    <!-- Iconos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <button id="menu-toggle-btn" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav id="side-menu">
+        <div class="menu-header">
+            <h3>Navegación</h3>
+        </div>
+        <ul>
+            <li><a href="index.html"><i class="fa-solid fa-house fa-fw"></i> Inicio</a></li>
+            <li><a href="cursos.html"><i class="fa-solid fa-graduation-cap fa-fw"></i> Cursos y Formación</a></li>
+            <li><a href="critica.html"><i class="fa-solid fa-gavel fa-fw"></i> Crítica Jurídica</a></li>
+            <li><a href="criterios.html"><i class="fa-solid fa-scale-balanced fa-fw"></i> Criterios del TSJ</a></li>
+            <li><a href="#contact"><i class="fa-solid fa-envelope fa-fw"></i> Contacto</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="course-showcase" class="container">
+            <h2>Formación Jurídica Especializada</h2>
+            <p>Explora nuestros cursos diseñados para ofrecerte conocimiento práctico y aplicable.</p>
+            <div class="showcase-grid">
+                <div class="showcase-card" style="background-image: url('asociacion civil.png');">
+                    <div class="showcase-content">
+                        <h3>Asociación Civil</h3>
+                        <a href="#contact" class="btn">Ver más</a>
+                    </div>
+                </div>
+                <div class="showcase-card" style="background-image: url('Black White Minimalist Modern Aesthetic Initials Font Logo (2).png');">
+                    <div class="showcase-content">
+                        <h3>Permisos de Viajes Nacional e Internacional</h3>
+                        <a href="#contact" class="btn">Ver más</a>
+                    </div>
+                </div>
+                <div class="showcase-card" style="background-image: url('Black White Minimalist Modern Aesthetic Initials Font Logo (3).png');">
+                    <div class="showcase-content">
+                        <h3>Ejercicio Unilateral de la Patria Potestad</h3>
+                        <a href="#contact" class="btn">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="container">
+            <div class="contact-header">
+                <h2>Contacto y Acceso a Cursos</h2>
+                <p>¿Interesado en un curso o necesitas asesoría? Sigue estos sencillos pasos para comenzar.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Proceso de Inscripción</h3>
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <h4>Completa el Formulario</h4>
+                            <p>Llena tus datos y selecciona el curso o servicio de tu interés.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <h4>Recibe la Información</h4>
+                            <p>Te enviaré un correo con los detalles de pago y los próximos pasos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-embed-container">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeAKtVs_cUYIj4_SwmnVoZUKRP0Y1RZaVPbekE39FNTlLu3UA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="payment-methods" class="container">
+            <h2>Métodos de Pago Digitales y Bancarios</h2>
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <h4>Pago Móvil Interbancario</h4>
+                    <p><strong>Banco:</strong> [Nombre del Banco]</p>
+                    <p><strong>Teléfono:</strong> [Tu Número de Teléfono]</p>
+                    <p><strong>C.I./RIF:</strong> [Tu Cédula o RIF]</p>
+                    <p>Una vez realizado el pago, envía el comprobante a través del formulario de contacto.</p>
+                </div>
+                <div class="payment-card">
+                    <div class="qr-code-container">
+                        <h4>Código QR (Punto de Venta Virtual)</h4>
+                        <div class="qr-placeholder">
+                            <span>Tu QR aquí</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="payment-card">
+                    <h4>Otros Métodos de Pago</h4>
+                    <p><strong>Criptomonedas:</strong> Aceptamos pagos en USDT (TRC20). Solicita la dirección de la billetera.</p>
+                    <p><strong>PayPal:</strong> Envía tu pago a [Tu Correo de PayPal].</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Abogado Digital. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funcionalidad del menú lateral
+            const menuToggleBtn = document.getElementById('menu-toggle-btn');
+            const sideMenu = document.getElementById('side-menu');
+
+            menuToggleBtn.addEventListener('click', function() {
+                sideMenu.classList.toggle('open');
+            });
+
+            sideMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => sideMenu.classList.remove('open'));
+            });
+        });
+    </script>
+</body>
+</html>
